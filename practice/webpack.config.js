@@ -16,9 +16,10 @@ module.exports = (webpackEnv) => {
 
   return {
     module: webpackEnv,
-    devtool: isProd ? "hidden-sourcemap" : "cheap-module-source-map", // 개발시 cheap-module-source-map을 쓸거나 eval을 쓸거냐
+    // webpack의 https://webpack.js.org/configuration/devtool/ 확인 요망
+    devtool: isProd ? "cheap-module-source-map" : "eval", // 속도를 위해 개발시 eval로 교체, 배포시 가장 가벼운 cheap-module-source-map을 쓸 것인가, hidden-source-map이나 다른 걸 쓸 것인가 모르겠음
     resolve: {
-      extensions: [".jsx", ".js", ".tsx", ".ts"],
+      extensions: [".tsx", ".ts", ".jsx", ".js"],
     },
     entry: {
       app: "./src/index.tsx",
@@ -26,12 +27,27 @@ module.exports = (webpackEnv) => {
     module: {
       rules: [
         {
-          test: /\.(ts|tsx)$/,
-          use: [
+          oneOf: [
             {
-              loader: "awesome-typescript-loader", // ts-loader보다 이게 좋더라
+              test: /\.(ts|tsx)$/,
+              use: [
+                "cache-loader",
+                {
+                  loader: "awesome-typescript-loader", // ts-loader보다 이게 좋더라
+
+                  options: {
+                    transpileOnly: isDev ? true : false, // 빠른 개발을 위해 개발 시에는 tanspile하지 않도록. prod 환경은 transpile을 항상 하도록
+                  },
+                },
+              ],
+            },
+            {
+              loader: "file-loader",
+              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
               options: {
-                transpileOnly: isDev ? true : false, // 빠른 개발을 위해 개발 시에는 tanspile하지 않도록. prod 환경은 transpile을 항상 하도록
+                outputPath: "static/media",
+                name: "static/media/[name].[hash:8].[ext]",
+                esModule: false,
               },
             },
           ],
@@ -65,16 +81,16 @@ module.exports = (webpackEnv) => {
       },
     },
     // stats : https://webpack.js.org/configuration/stats/ 참고
-    stats: {
-      builtAt: false,
-      children: false,
-      entrypoints: false,
-      hash: false,
-      modules: false,
-      version: false,
-      publicPath: true,
-      excludeAssets: [/\.(map|txt|html|jpg|png)$/, /\.json$/],
-      warningsFilter: [/exceed/, /performance/],
-    },
+    // stats: {
+    //   builtAt: false,
+    //   children: false,
+    //   entrypoints: false,
+    //   hash: false,
+    //   modules: false,
+    //   version: false,
+    //   publicPath: true,
+    //   excludeAssets: [/\.(map|txt|html|jpg|png)$/, /\.json$/],
+    //   warningsFilter: [/exceed/, /performance/],
+    // },
   };
 };

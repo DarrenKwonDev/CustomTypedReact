@@ -15,6 +15,8 @@
   },
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
+    "cache-loader": "^4.1.0",
+    "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.0.2",
     "html-webpack-plugin": "5.0.0-alpha.9",
     "webpack": "^5.4.0",
