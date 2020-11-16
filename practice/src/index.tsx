@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import NumberBaseball from "./Lecture/NumberBaseball/NumberBaseball";
 
-import GuGuDan from "./Lecture/GuGuDan";
 
-ReactDOM.render(<GuGuDan />, document.querySelector("#root"))
+
+ReactDOM.render(<NumberBaseball />, document.querySelector("#root"))
