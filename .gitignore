@@ -72,7 +72,8 @@ dist
 .dynamodb/
 .tern-port
 
-
+.idea
+.idea/
 1.구구단
 1.구구단/
 2.끝말잇기
