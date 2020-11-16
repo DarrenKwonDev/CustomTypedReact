@@ -22,7 +22,7 @@ module.exports = (webpackEnv) => {
       extensions: [".tsx", ".ts", ".jsx", ".js"],
     },
     entry: {
-      app: "./src/index.tsx",
+      app: "./src/App.tsx",
     }, // output [name]에 app으로 들어감
     module: {
       rules: [
@@ -81,16 +81,16 @@ module.exports = (webpackEnv) => {
       },
     },
     // stats : https://webpack.js.org/configuration/stats/ 참고
-    // stats: {
-    //   builtAt: false,
-    //   children: false,
-    //   entrypoints: false,
-    //   hash: false,
-    //   modules: false,
-    //   version: false,
-    //   publicPath: true,
-    //   excludeAssets: [/\.(map|txt|html|jpg|png)$/, /\.json$/],
-    //   warningsFilter: [/exceed/, /performance/],
-    // },
+    stats: {
+      builtAt: false,
+      children: false,
+      entrypoints: false,
+      hash: false,
+      modules: false,
+      version: false,
+      publicPath: true,
+      excludeAssets: [/\.(map|txt|html|jpg|png)$/, /\.json$/],
+      warningsFilter: [/exceed/, /performance/],
+    },
   };
 };
